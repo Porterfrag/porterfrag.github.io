@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Edges } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import {
   Bloom,
   ChromaticAberration,
@@ -12,8 +12,19 @@ import {
   Scanline,
   Vignette,
 } from "@react-three/postprocessing";
-import { AdditiveBlending, Object3D, Vector2 } from "three";
+import {
+  Box3,
+  Mesh,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  Object3D,
+  Vector2,
+  Vector3,
+} from "three";
 import type { Group, InstancedMesh } from "three";
+import { assetPath } from "@/lib/paths";
+
+const MODEL_URL = assetPath("/models/low-poly-spaceship.glb");
 
 type Streak = { x: number; y: number; z: number; length: number };
 
@@ -36,8 +47,7 @@ function WarpStreaks({ count }: { count: number }) {
   useFrame((_, delta) => {
     const node = mesh.current;
     if (!node) return;
-    const speed = Math.min(delta, 0.05) * 17;
-
+    const speed = Math.min(delta, 0.05) * 19;
     streaks.forEach((streak, i) => {
       streak.z += speed;
       if (streak.z > 7) Object.assign(streak, makeStreak(), { z: -26 });
@@ -52,116 +62,67 @@ function WarpStreaks({ count }: { count: number }) {
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshBasicMaterial color="#ff4a3f" toneMapped={false} transparent opacity={0.75} />
+      <meshBasicMaterial color="#ff4a3f" toneMapped={false} transparent opacity={0.8} />
     </instancedMesh>
   );
 }
 
-function Ship() {
+function Starship() {
   const group = useRef<Group>(null);
-  const glows = useRef<Group>(null);
+  const { scene } = useGLTF(MODEL_URL);
+
+  const model = useMemo(() => {
+    const copy = scene.clone(true);
+    const meshes: Mesh[] = [];
+    copy.traverse((child) => {
+      if (child instanceof Mesh) meshes.push(child);
+    });
+
+    meshes.forEach((child) => {
+      child.material = new MeshStandardMaterial({
+        color: "#303036",
+        metalness: 0.78,
+        roughness: 0.34,
+        emissive: "#ff3b30",
+        emissiveIntensity: 0.06,
+        flatShading: true,
+      });
+      const edges = new Mesh(
+        child.geometry,
+        new MeshBasicMaterial({
+          color: "#ff3b30",
+          wireframe: true,
+          transparent: true,
+          opacity: 0.18,
+          depthWrite: false,
+        }),
+      );
+      edges.scale.setScalar(1.004);
+      child.add(edges);
+    });
+
+    const box = new Box3().setFromObject(copy);
+    const center = box.getCenter(new Vector3());
+    copy.position.sub(center);
+    return copy;
+  }, [scene]);
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (group.current) {
-      group.current.position.y = Math.sin(t * 1.3) * 0.06;
-      group.current.rotation.z = -0.12 + Math.sin(t * 0.9) * 0.035;
-      group.current.rotation.y = -0.62 + Math.sin(t * 0.6) * 0.04;
-      group.current.rotation.x = 0.5 + Math.sin(t * 1.7) * 0.02;
-    }
-    if (glows.current) {
-      glows.current.scale.setScalar(0.9 + Math.sin(t * 10) * 0.12);
+      group.current.position.y = Math.sin(t * 1.2) * 0.07;
+      group.current.rotation.z = -0.16 + Math.sin(t * 0.8) * 0.04;
+      group.current.rotation.y = -0.55 + Math.sin(t * 0.55) * 0.05;
+      group.current.rotation.x = 0.22 + Math.sin(t * 1.5) * 0.025;
     }
   });
 
-  const hull = (
-    <meshStandardMaterial
-      color="#2a2a2e"
-      metalness={0.62}
-      roughness={0.38}
-      flatShading
-    />
-  );
-
   return (
-    <group ref={group} scale={1.35}>
-      {/* long nose */}
-      <mesh position={[0, 0, -0.55]} rotation={[-Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.32, 3.2, 8]} />
-        {hull}
-        <Edges scale={1.005} threshold={14} color="#ff3b30" />
-      </mesh>
-
-      {/* main hull */}
-      <mesh position={[0, 0, 0.45]}>
-        <boxGeometry args={[0.78, 0.38, 1.7]} />
-        {hull}
-        <Edges scale={1.005} threshold={14} color="#ff3b30" />
-      </mesh>
-
-      {/* four swept wings */}
-      {[-1, 1].map((side) => (
-        <group key={side}>
-          <mesh position={[side * 0.82, side * 0.16, 0.38]} rotation={[0, side * 0.1, side * 0.44]}>
-            <boxGeometry args={[1.55, 0.065, 0.78]} />
-            {hull}
-            <Edges scale={1.008} threshold={14} color="#ff3b30" />
-          </mesh>
-          <mesh position={[side * 0.82, -side * 0.16, 0.38]} rotation={[0, side * 0.1, -side * 0.44]}>
-            <boxGeometry args={[1.55, 0.065, 0.78]} />
-            {hull}
-            <Edges scale={1.008} threshold={14} color="#ff3b30" />
-          </mesh>
-        </group>
-      ))}
-
-      {/* canopy */}
-      <mesh position={[0, 0.26, -0.5]} scale={[1, 0.75, 1.4]}>
-        <sphereGeometry args={[0.26, 10, 7]} />
-        <meshStandardMaterial
-          color="#ff3b30"
-          emissive="#ff3b30"
-          emissiveIntensity={0.85}
-          metalness={0.35}
-          roughness={0.22}
-          flatShading
-        />
-      </mesh>
-
-      {/* twin engines */}
-      {[-1, 1].map((side) => (
-        <mesh key={side} position={[side * 0.3, 0, 1.32]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.16, 0.23, 0.55, 10]} />
-          <meshStandardMaterial color="#1a1a1c" metalness={0.8} roughness={0.25} flatShading />
-          <Edges scale={1.01} threshold={14} color="#ff3b30" />
-        </mesh>
-      ))}
-
-      {/* engine flames */}
-      <group ref={glows}>
-        {[-1, 1].map((side) => (
-          <group key={side} position={[side * 0.3, 0, 1.64]}>
-            <mesh>
-              <circleGeometry args={[0.17, 16]} />
-              <meshBasicMaterial
-                color="#ff3b30"
-                transparent
-                opacity={0.95}
-                blending={AdditiveBlending}
-                toneMapped={false}
-              />
-            </mesh>
-            <mesh position={[0, 0, 0.01]}>
-              <circleGeometry args={[0.07, 12]} />
-              <meshBasicMaterial color="#fff4f0" toneMapped={false} />
-            </mesh>
-          </group>
-        ))}
-      </group>
-
-      <pointLight position={[0, 0, 1.8]} intensity={22} color="#ff3b30" distance={9} />
-      <directionalLight position={[-4, 5, 6]} intensity={4} color="#ff7a70" />
-      <ambientLight intensity={1} />
+    <group ref={group} scale={0.3}>
+      <primitive object={model} />
+      <pointLight position={[0, 0, 2.6]} intensity={10} color="#ff3b30" distance={10} />
+      <directionalLight position={[-4, 5, 6]} intensity={3} color="#ff7a70" />
+      <ambientLight intensity={0.9} />
     </group>
   );
 }
@@ -194,12 +155,14 @@ export default function MusicScene() {
       frameloop={active ? "always" : "never"}
       gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
     >
-      <fog attach="fog" args={["#070707", 6, 20]} />
+      <fog attach="fog" args={["#070707", 7, 22]} />
       <WarpStreaks count={compact ? 46 : 110} />
-      <Ship />
+      <Suspense fallback={null}>
+        <Starship />
+      </Suspense>
 
       <EffectComposer multisampling={0}>
-        <Bloom mipmapBlur luminanceThreshold={0.4} intensity={1.35} />
+        <Bloom mipmapBlur luminanceThreshold={0.4} intensity={1.4} />
         {!compact && (
           <>
             <Glitch
