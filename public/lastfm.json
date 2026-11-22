@@ -1,0 +1,102 @@
+{
+  "configured": true,
+  "user": "porterfrag",
+  "tracks": [
+    {
+      "name": "BIRDBRAIN",
+      "artist": "Jamie Paige",
+      "album": "",
+      "image": "",
+      "nowPlaying": true,
+      "date": ""
+    },
+    {
+      "name": "きゅびびびびずむ",
+      "artist": "OMGkawaiiAngel",
+      "album": "",
+      "image": "",
+      "nowPlaying": false,
+      "date": "22 Nov 2026, 13:17"
+    },
+    {
+      "name": "INTERNET YAMERO",
+      "artist": "Aiobahn",
+      "album": "Internet Yamero / 月虹蝶",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/5f2876a49be7464d2e6d5fddd4fddbdf.jpg",
+      "nowPlaying": false,
+      "date": "22 Nov 2026, 13:13"
+    },
+    {
+      "name": "天天天国地獄国",
+      "artist": "Aiobahn +81, Nanahira, & Pmarusama",
+      "album": "",
+      "image": "",
+      "nowPlaying": false,
+      "date": "22 Nov 2026, 13:09"
+    },
+    {
+      "name": "Angels of Delusion EP",
+      "artist": "\"ReDreaming Angel\"",
+      "album": "",
+      "image": "",
+      "nowPlaying": false,
+      "date": "22 Nov 2026, 13:05"
+    },
+    {
+      "name": "空間、事情、時間、事象。",
+      "artist": "kinoue64",
+      "album": "空間、事情、時間、事象。",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/8efedb1c33f828552fa0d8d412b8648b.jpg",
+      "nowPlaying": false,
+      "date": "22 Nov 2026, 12:59"
+    }
+  ],
+  "topArtists": [
+    {
+      "name": "\"ReDreaming Angel\"",
+      "playcount": "1",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+      "url": "https://www.last.fm/music/%22ReDreaming+Angel%22"
+    },
+    {
+      "name": "Aiobahn",
+      "playcount": "1",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+      "url": "https://www.last.fm/music/Aiobahn"
+    },
+    {
+      "name": "Aiobahn +81, Nanahira, & Pmarusama",
+      "playcount": "1",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+      "url": "https://www.last.fm/music/Aiobahn+%252B81,+Nanahira,+&+Pmarusama"
+    },
+    {
+      "name": "kinoue64",
+      "playcount": "1",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+      "url": "https://www.last.fm/music/kinoue64"
+    },
+    {
+      "name": "OMGkawaiiAngel",
+      "playcount": "1",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+      "url": "https://www.last.fm/music/OMGkawaiiAngel"
+    }
+  ],
+  "topAlbums": [
+    {
+      "name": "Internet Yamero / 月虹蝶",
+      "artist": "Aiobahn",
+      "playcount": "1",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/5f2876a49be7464d2e6d5fddd4fddbdf.jpg",
+      "url": "https://www.last.fm/music/Aiobahn/Internet+Yamero+%2F+%E6%9C%88%E8%99%B9%E8%9D%B6"
+    },
+    {
+      "name": "空間、事情、時間、事象。",
+      "artist": "kinoue64",
+      "playcount": "1",
+      "image": "https://lastfm-img.freetls.fastly.net/i/u/174s/8efedb1c33f828552fa0d8d412b8648b.jpg",
+      "url": "https://www.last.fm/music/kinoue64/%E7%A9%BA%E9%96%93%E3%80%81%E4%BA%8B%E6%83%85%E3%80%81%E6%99%82%E9%96%93%E3%80%81%E4%BA%8B%E8%B1%A1%E3%80%82"
+    }
+  ]
+}
