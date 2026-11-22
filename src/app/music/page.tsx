@@ -136,6 +136,22 @@ export default function MusicPage() {
         </div>
         <div className="music-hero__deco" aria-hidden="true">
           <MusicScene />
+          <div className="ship-hud">
+            <span className="ship-hud__corner ship-hud__corner--tl mono-xs">
+              UESC // RUNNER-07
+            </span>
+            <span className="ship-hud__corner ship-hud__corner--tr mono-xs">
+              VEL 0.88c
+            </span>
+            <span className="ship-hud__corner ship-hud__corner--bl mono-xs">
+              TAU CETI // APPROACH
+            </span>
+            <span className="ship-hud__corner ship-hud__corner--br mono-xs">
+              SYS.ONLINE
+            </span>
+            <div className="ship-hud__reticle" />
+          </div>
+          <div className="ship-dither" />
         </div>
       </section>
 

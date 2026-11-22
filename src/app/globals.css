@@ -1179,6 +1179,54 @@ button {
   mask-image: radial-gradient(circle, black 52%, transparent 76%);
 }
 
+.ship-hud {
+  position: absolute;
+  inset: 0;
+  color: rgba(255, 59, 48, 0.72);
+  font-size: 0.5rem;
+}
+
+.ship-hud__corner {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.ship-hud__corner--tl { top: 12%; left: 12%; }
+.ship-hud__corner--tr { top: 12%; right: 12%; }
+.ship-hud__corner--bl { bottom: 12%; left: 12%; }
+.ship-hud__corner--br { bottom: 12%; right: 12%; }
+
+.ship-hud__reticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 72px;
+  height: 72px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 59, 48, 0.22);
+  border-radius: 50%;
+}
+
+.ship-hud__reticle::before,
+.ship-hud__reticle::after {
+  content: "";
+  position: absolute;
+  background: rgba(255, 59, 48, 0.5);
+}
+
+.ship-hud__reticle::before { top: 50%; left: -14px; width: calc(100% + 28px); height: 1px; }
+.ship-hud__reticle::after { left: 50%; top: -14px; height: calc(100% + 28px); width: 1px; }
+
+.ship-dither {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  background-image: radial-gradient(rgba(255, 59, 48, 0.5) 0.55px, transparent 0.6px);
+  background-size: 3px 3px;
+}
+
 /* now playing */
 
 .nowplaying {
