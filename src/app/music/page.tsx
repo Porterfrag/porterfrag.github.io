@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,6 +9,10 @@ import Lenis from "lenis";
 import NowPlaying from "@/components/NowPlaying";
 import { useLastfm } from "@/components/MusicProvider";
 import { albums, artists, gear, lastfmUser } from "@/data/music";
+
+const MusicScene = dynamic(() => import("@/components/MusicScene"), {
+  ssr: false,
+});
 
 export default function MusicPage() {
   const rootRef = useRef<HTMLElement>(null);
@@ -130,9 +135,7 @@ export default function MusicPage() {
           </div>
         </div>
         <div className="music-hero__deco" aria-hidden="true">
-          <div className="music-hero__ring" />
-          <div className="music-hero__ring music-hero__ring--two" />
-          <div className="music-hero__wave" />
+          <MusicScene />
         </div>
       </section>
 

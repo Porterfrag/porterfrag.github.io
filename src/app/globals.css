@@ -1175,45 +1175,8 @@ button {
   aspect-ratio: 1;
   transform: translateY(-50%);
   pointer-events: none;
-}
-
-.music-hero__ring {
-  position: absolute;
-  inset: 12%;
-  border: 1px solid rgba(255, 59, 48, 0.28);
-  border-radius: 50%;
-  animation: ring-spin 26s linear infinite;
-}
-
-.music-hero__ring::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: 50%;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--red);
-  box-shadow: 0 0 16px var(--red);
-}
-
-.music-hero__ring--two {
-  inset: 23%;
-  border-color: rgba(242, 240, 235, 0.12);
-  animation-duration: 18s;
-  animation-direction: reverse;
-}
-
-.music-hero__wave {
-  position: absolute;
-  inset: 36%;
-  border: 1px dashed rgba(255, 59, 48, 0.2);
-  border-radius: 50%;
-  animation: ring-spin 40s linear infinite reverse;
-}
-
-@keyframes ring-spin {
-  to { transform: rotate(360deg); }
+  -webkit-mask-image: radial-gradient(circle, black 52%, transparent 76%);
+  mask-image: radial-gradient(circle, black 52%, transparent 76%);
 }
 
 /* now playing */
